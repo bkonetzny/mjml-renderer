@@ -1,0 +1,11 @@
+{
+  "name": "bkonetzny/mjml-renderer",
+  "require": {
+    "ivopetkov/html5-dom-document-php": "^0.5.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "bkonetzny\\MjmlRenderer\\": "src/"
+    }
+  }
+}
