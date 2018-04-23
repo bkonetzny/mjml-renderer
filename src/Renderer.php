@@ -6,14 +6,14 @@ class Renderer {
 
 	private $tagRegistry = array(
 		// Structural elements
-		'mj-body' => '\bkonetzny\MjmlRenderer\Tags\MjBody',
-		'mj-section' => '\bkonetzny\MjmlRenderer\Tags\MjSection',
-		'mj-column' => '\bkonetzny\MjmlRenderer\Tags\MjColumn',
+		'mj-body' => '\bkonetzny\MjmlRenderer\Tags\MJML\MjBody',
+		'mj-section' => '\bkonetzny\MjmlRenderer\Tags\MJML\MjSection',
+		'mj-column' => '\bkonetzny\MjmlRenderer\Tags\MJML\MjColumn',
 
 		// Content elements
-		'mj-divider' => '\bkonetzny\MjmlRenderer\Tags\MjDivider',
-		'mj-text' => '\bkonetzny\MjmlRenderer\Tags\MjText',
-		'mj-image' => '\bkonetzny\MjmlRenderer\Tags\MjImage',
+		'mj-divider' => '\bkonetzny\MjmlRenderer\Tags\MJML\MjDivider',
+		'mj-text' => '\bkonetzny\MjmlRenderer\Tags\MJML\MjText',
+		'mj-image' => '\bkonetzny\MjmlRenderer\Tags\MJML\MjImage',
 	);
 
 	/**
@@ -45,9 +45,10 @@ class Renderer {
 		$nodes = $dom->querySelectorAll($tagName);
 
 		foreach ($nodes as &$node) { /* @var $node \IvoPetkov\HTML5DOMElement */
-			$tagHandler = new $this->tagRegistry[$tagName]();
+		    /* @var $tagHandler \bkonetzny\MjmlRenderer\Tags\ReplaceableTagInterface */
+		    $tagHandler = new $this->tagRegistry[$tagName]($dom);
 
-			if ($fragment = $tagHandler->render($dom, $node)) {
+			if ($fragment = $tagHandler->replaceNode($node)) {
 				$node->parentNode->replaceChild($fragment, $node);
 			}
 		}

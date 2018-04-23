@@ -1,14 +1,17 @@
 <?php
 
-namespace bkonetzny\MjmlRenderer\Tags;
+namespace bkonetzny\MjmlRenderer\Tags\MJML;
 
-class MjImage implements TagInterface {
+use bkonetzny\MjmlRenderer\Tags\AbstractReplaceableTag;
+use bkonetzny\MjmlRenderer\Tags\ReplaceableTagInterface;
+
+class MjImage extends AbstractReplaceableTag implements ReplaceableTagInterface {
 
 	/**
 	 * {@inheritDoc}
-	 * @see \bkonetzny\MjmlRenderer\Tags\TagInterface::render()
+	 * @see \bkonetzny\MjmlRenderer\Tags\ReplaceableTagInterface::replaceNode()
 	 */
-	public function render(\IvoPetkov\HTML5DOMDocument $dom, \IvoPetkov\HTML5DOMElement $node)
+	public function replaceNode(\IvoPetkov\HTML5DOMElement $node)
 	{
 		$attrWidth = $node->getAttribute('width');
 		$attrSrc = $node->getAttribute('src');
@@ -28,11 +31,8 @@ class MjImage implements TagInterface {
 				</td>
 			</tr>
 HTML;
-
-		$fragment = $dom->createDocumentFragment();
-		$fragment->appendXML($output);
-
-		return $fragment;
+		
+		return $this->createDocumentFragment($output);
 	}
 
 }

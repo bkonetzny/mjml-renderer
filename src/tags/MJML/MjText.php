@@ -1,14 +1,17 @@
 <?php
 
-namespace bkonetzny\MjmlRenderer\Tags;
+namespace bkonetzny\MjmlRenderer\Tags\MJML;
 
-class MjText implements TagInterface {
+use bkonetzny\MjmlRenderer\Tags\AbstractReplaceableTag;
+use bkonetzny\MjmlRenderer\Tags\ReplaceableTagInterface;
+
+class MjText extends AbstractReplaceableTag implements ReplaceableTagInterface {
 
 	/**
 	 * {@inheritDoc}
-	 * @see \bkonetzny\MjmlRenderer\Tags\TagInterface::render()
+	 * @see \bkonetzny\MjmlRenderer\Tags\ReplaceableTagInterface::replaceNode()
 	 */
-	public function render(\IvoPetkov\HTML5DOMDocument $dom, \IvoPetkov\HTML5DOMElement $node)
+	public function replaceNode(\IvoPetkov\HTML5DOMElement $node)
 	{
 		$attrFontSize = $node->getAttribute('font-size');
 		$attrFontFamily = $node->getAttribute('font-family');
@@ -25,10 +28,7 @@ class MjText implements TagInterface {
 			</tr>
 HTML;
 
-		$fragment = $dom->createDocumentFragment();
-		$fragment->appendXML($output);
-
-		return $fragment;
+		return $this->createDocumentFragment($output);
 	}
 
 }
